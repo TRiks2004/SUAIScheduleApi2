@@ -1,0 +1,45 @@
+version: '3.9'
+
+services:
+  queue_db_postgres:
+    container_name: Queue_DB
+    image: "postgres:14-alpine"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: queue
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./.database/postgres/data:/var/lib/postgresql/data
+    networks:
+      - Queue_Network
+  
+  fastapi:
+    container_name: QueueAPI
+    build: .
+    command: uvicorn --factory main:create_app --reload --host 0.0.0.0 --port 8000 
+    restart: always
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    networks:
+      - Queue_Network
+
+  pgadmin:
+    container_name: Queue_PGAdmin
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: triks0001000@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - 5050:80
+    networks:
+      - Queue_Network
+
+networks:
+  Queue_Network:  
+    external: true

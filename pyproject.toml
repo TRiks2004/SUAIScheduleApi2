@@ -7,6 +7,10 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
+fastapi = {extras = ["all"], version = "^0.109.1"}
+django-environ = "^0.11.2"
+pydantic = "^2.6.0"
+pydantic-settings = "^2.1.0"
 
 
 [build-system]
