@@ -10,8 +10,6 @@ engine_async = create_async_engine(
     echo=settings_database.db_debug,
 )
 
-
-
 def async_db_transaction(engine_async):
     """
     Decorator to manage database connection and transaction for an asynchronous function.
