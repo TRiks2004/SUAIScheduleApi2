@@ -1,8 +1,7 @@
 version: '3.9'
 
 services:
-  queue_db_postgres:
-    container_name: Queue_DB
+  suai_schedule_db_postgres:
     image: "postgres:14-alpine"
     environment:
       POSTGRES_USER: postgres
@@ -10,14 +9,13 @@ services:
       POSTGRES_DB: queue
     restart: always
     ports:
-      - "5432:5432"
+      - "5000:5432"
     volumes:
       - ./.database/postgres/data:/var/lib/postgresql/data
     networks:
-      - Queue_Network
+      - suai_schedule_Network
   
-  fastapi:
-    container_name: QueueAPI
+  suai_schedule_fastapi:
     build: .
     command: uvicorn --factory main:create_app --reload --host 0.0.0.0 --port 8000 
     restart: always
@@ -26,10 +24,9 @@ services:
     ports:
       - "8000:8000"
     networks:
-      - Queue_Network
+      - suai_schedule_Network
 
-  pgadmin:
-    container_name: Queue_PGAdmin
+  suai_schedule_pgadmin:
     image: dpage/pgadmin4
     restart: always
     environment:
@@ -38,8 +35,8 @@ services:
     ports:
       - 5050:80
     networks:
-      - Queue_Network
+      - suai_schedule_Network
 
 networks:
-  Queue_Network:  
+  suai_schedule_Network:  
     external: true
