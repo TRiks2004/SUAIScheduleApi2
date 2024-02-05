@@ -1,11 +1,11 @@
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, async_session 
 from sqlalchemy import text, insert
 from common.settings import settings_database
-from models.Schemes import Base
+from models.schemes import Base
 
 from datetime import time
 
-from models.Schemes import (
+from models.schemes import (
     TimeClass, DayWeeks, TypeWeek, TokenType, Role
 )
 

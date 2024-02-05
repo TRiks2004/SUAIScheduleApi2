@@ -19,14 +19,16 @@ def create_app() -> FastAPI:
 
 
 async def main():
-    await drop_db()
-    await create_db()
+    # await drop_db()
+    # await create_db()
 
     # await DefaultInsert.timeclass()
     # await DefaultInsert.role()
     # await DefaultInsert.typeweek()
     # await DefaultInsert.tokentype()
     # await DefaultInsert.dayweeks()
+
+    pass
     
 
 if __name__ == '__main__':
