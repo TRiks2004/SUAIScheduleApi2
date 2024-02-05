@@ -11,6 +11,8 @@ async def get_timeclass(
 
 > returns: List[TimeClass]
 
-![alt text](https://drive.google.com/file/d/1MYUpciZeRMUsaVZNE553w8WYoH4rTt0z/view) 
+![alt text](https://drive.google.com/uc?id=1MYUpciZeRMUsaVZNE553w8WYoH4rTt0z) 
 
-![Example Image](https://drive.google.com/uc?id=1bXzYeegauqB2M6-VZwitEeXHmMiYZIUY)
+
+
+
