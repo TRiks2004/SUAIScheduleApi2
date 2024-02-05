@@ -14,3 +14,10 @@ async def timeclass_select_all(session: AsyncSession, skip: int = 0, limit: int 
     result = await session.execute(stmt)
     
     return result.scalars().all()
+
+async def timeclass_select_one(session: AsyncSession, number: int) -> TimeClass:
+    stmt = select(TimeClass).where(TimeClass.number == number)
+    
+    result = await session.execute(stmt)
+    
+    return result.scalars().fetchall()
