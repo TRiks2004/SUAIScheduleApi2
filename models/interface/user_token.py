@@ -1,17 +1,14 @@
 
 from pydantic import BaseModel
 
-"""
-class UserToken(Base):
-    __tablename__ = 'UserToken'
+from uuid import UUID
 
-    idUserToken = Column(UUID(as_uuid=True), primary_key=True, default=uuid4())
-    idUser = Column(UUID(as_uuid=True), ForeignKey(Users.idUsers), nullable=False)
-    idToken = Column(UUID(as_uuid=True), ForeignKey(Token.idToken), nullable=False)
-"""
+from users import Users
+from token import Token
 
 class UserTokenBase(BaseModel):
-    ...
+    User: Users
+    Token: Token
 
     class Config:
         orm_mode = True
@@ -20,4 +17,4 @@ class UserTokenCreate(UserTokenBase):
     ...
 
 class UserToken(UserTokenBase):
-    ...
+    idUserToken: UUID

@@ -1,19 +1,14 @@
 
 from pydantic import BaseModel
 
-"""
-class TeachersClass(Base):
-    __tablename__ = 'TeachersClass'
-
-    idTeacherClasses = Column(Integer, primary_key=True)
-
-    idTeacher = Column(Integer, ForeignKey(Teachers.idTeacher), nullable=False)
-    idClass = Column(Integer, ForeignKey(Class.idClasses), nullable=False)
-    idClassrooms = Column(Integer, ForeignKey(Classrooms.idClassroom), nullable=False)
-"""
+from teachers import Teachers
+from class_ import Class
+from classrooms import Classrooms
 
 class TeachersClassBase(BaseModel):
-    ...
+    Teacher: Teachers
+    Class: Class
+    Classrooms: Classrooms
 
     class Config:
         orm_mode = True
@@ -22,4 +17,4 @@ class TeachersClassCreate(TeachersClassBase):
     ...
 
 class TeachersClass(TeachersClassBase):
-    ...
+    idTeacherClasses: int

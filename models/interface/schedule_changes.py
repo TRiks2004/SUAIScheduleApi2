@@ -1,17 +1,12 @@
 
 from pydantic import BaseModel
 
-"""
-class ScheduleChanges(Base):
-    __tablename__ = 'ScheduleChanges'
-
-    idScheduleChange = Column(Integer, primary_key=True)
-    timeClasses = Column(Integer, ForeignKey(TimeClass.idTimeClasses), nullable=False)
-    subjects = Column(Integer, ForeignKey(Subjects.idSubject), nullable=False)
-"""
+from time_class import TimeClass
+from subjects import Subjects
 
 class ScheduleChangesBase(BaseModel):
-    ...
+    timeClasses: TimeClass
+    subjects: Subjects
 
     class Config:
         orm_mode = True
@@ -20,4 +15,4 @@ class ScheduleChangesCreate(ScheduleChangesBase):
     ...
 
 class ScheduleChanges(ScheduleChangesBase):
-    ...
+    idScheduleChange: int

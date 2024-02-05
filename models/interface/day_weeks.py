@@ -12,3 +12,6 @@ class DayWeeksCreate(DayWeeksBase): ...
 class DayWeeks(DayWeeksBase):
     idDayWeek: int
     
+
+
+    

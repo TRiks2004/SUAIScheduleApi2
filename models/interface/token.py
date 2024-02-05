@@ -1,19 +1,17 @@
 
 from pydantic import BaseModel
+from uuid import UUID
+from datetime import timedelta
 
-"""
-class Token(Base):
-    __tablename__ = 'Token'
+import token_type
 
-    idToken = Column(UUID(as_uuid=True), primary_key=True, default=uuid4())
-    token = Column(String(255), nullable=False,  unique=True)
-    tokenType = Column(Integer, ForeignKey(TokenType.idTokenType), nullable=False)
-    created_at = Column(TIMESTAMP(timezone=True), nullable=False)
-    deadToken = Column(TIMESTAMP(timezone=True), nullable=False)
-"""
+from datetime import datetime
 
 class TokenBase(BaseModel):
-    ...
+    token: str
+    tokenType: token_type.TokenTypeBase
+    created_at: datetime
+    deadToken: datetime
 
     class Config:
         orm_mode = True
@@ -22,4 +20,4 @@ class TokenCreate(TokenBase):
     ...
 
 class Token(TokenBase):
-    ...
+    idToken: UUID
