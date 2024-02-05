@@ -1,6 +1,12 @@
 
 from pydantic import BaseModel
 
+# idClasses
+# timeClasses
+# dayWeek
+# typeWeek
+# subjects
+
 class ClassBase(BaseModel):
     ...
 
