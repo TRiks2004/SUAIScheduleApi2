@@ -4,9 +4,13 @@ from sqlalchemy import (
 
 from uuid import uuid4
 
-from sqlalchemy.orm import declarative_base
+from sqlalchemy.orm import DeclarativeBase
 
-Base = declarative_base()
+class Base(DeclarativeBase):
+    pass
+
+
+# TODO: Обновить до "Mapped" https://youtu.be/t7ufjzWKVk4?si=y0pt9eZuipqY79S1&t=292
 
 class TimeClass(Base):
     __tablename__ = 'TimeClass'

@@ -7,6 +7,9 @@ from models.datebase import create_db, drop_db, DefaultInsert
 
 import anyio
 
+from routers.default_values import router_default 
+
+
 def create_app() -> FastAPI:
     app = FastAPI(
         debug= settings_api.debug,
@@ -14,21 +17,24 @@ def create_app() -> FastAPI:
         title='SUAI Schedule API(FastAPI)',
     )   
 
+    app.include_router(router_default)
+
+
     return app
 
 
 
 async def main():
-    # await drop_db()
-    # await create_db()
+    await drop_db()
+    await create_db()
 
-    # await DefaultInsert.timeclass()
-    # await DefaultInsert.role()
-    # await DefaultInsert.typeweek()
-    # await DefaultInsert.tokentype()
-    # await DefaultInsert.dayweeks()
+    await DefaultInsert.timeclass()
+    await DefaultInsert.role()
+    await DefaultInsert.typeweek()
+    await DefaultInsert.tokentype()
+    await DefaultInsert.dayweeks()
 
-    pass
+#     pass
     
 
 if __name__ == '__main__':

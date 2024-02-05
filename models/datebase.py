@@ -1,4 +1,4 @@
-from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, async_session 
+from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, async_session, AsyncSession
 from sqlalchemy import text, insert
 from common.settings import settings_database
 from models.schemes import Base
@@ -13,6 +13,14 @@ engine_async = create_async_engine(
     url=settings_database.db_url_async,
     echo=settings_database.db_debug,
 )
+
+async_session_maker = async_sessionmaker(engine_async, expire_on_commit=False)
+
+
+async def get_async_session() -> AsyncSession:
+    async with async_session_maker() as session:
+        yield session
+
 
 def async_db_transaction(engine_async = engine_async):
     """
@@ -43,66 +51,65 @@ async def drop_db(conn):
 
 
 class DefaultInsert:
-
-    @async_db_transaction()
-    async def insert_date(conn, *, table, data):
-        stmt = insert(table).values(data)
-        
-        await conn.execute(stmt)
-        await conn.commit()
+    async def insert_date(data):
+        async with async_session_maker() as session:
+            session.add_all(data)
+            await session.commit()
 
     async def timeclass():
-        
-        date = [{TimeClass.number:1, TimeClass.beginTime:time(9, 20, 0), TimeClass.endTime:time(10, 55, 0)},
-                {TimeClass.number:2, TimeClass.beginTime:time(11, 5, 0), TimeClass.endTime:time(12, 40, 0)},
-                {TimeClass.number:3, TimeClass.beginTime:time(13, 20, 0), TimeClass.endTime:time(14, 55, 0)},
-                {TimeClass.number:4, TimeClass.beginTime:time(15, 5, 0), TimeClass.endTime:time(16, 40, 0)}]
+        date = [
+            TimeClass(number=1, beginTime=time(9, 20, 0), endTime=time(10, 55, 0)),
+            TimeClass(number=2, beginTime=time(11, 5, 0), endTime=time(12, 40, 0)),
+            TimeClass(number=3, beginTime=time(13, 20, 0), endTime=time(14, 55, 0)),
+            TimeClass(number=4, beginTime=time(15, 5, 0), endTime=time(16, 40, 0))
+        ]
 
-        await DefaultInsert.insert_date(table=TimeClass, data=date)
+        await DefaultInsert.insert_date(data=date)
 
     async def dayweeks():
         date = [
-            {DayWeeks.Name:'Понедельник', DayWeeks.WekEnd:False},
-            {DayWeeks.Name:'Вторник', DayWeeks.WekEnd:False},
-            {DayWeeks.Name:'Среда', DayWeeks.WekEnd:False},
-            {DayWeeks.Name:'Четверг', DayWeeks.WekEnd:False},
-            {DayWeeks.Name:'Пятница', DayWeeks.WekEnd:False},
-            {DayWeeks.Name:'Суббота', DayWeeks.WekEnd:False},
-            {DayWeeks.Name:'Воскресенье', DayWeeks.WekEnd:True},
+            DayWeeks(Name='Понедельник', WekEnd=False),
+            DayWeeks(Name='Вторник', WekEnd=False),
+            DayWeeks(Name='Среда', WekEnd=False),
+            DayWeeks(Name='Четверг', WekEnd=False),
+            DayWeeks(Name='Пятница', WekEnd=False),
+            DayWeeks(Name='Суббота', WekEnd=False),
+            DayWeeks(Name='Воскресенье', WekEnd=True)
         ]
         
-        await DefaultInsert.insert_date(table=DayWeeks, data=date)
+        await DefaultInsert.insert_date(data=date)
     
     async def typeweek():
+        
         date = [
-            {TypeWeek.Name:'Числитель'},
-            {TypeWeek.Name:'Знаменатель'},
+            TypeWeek(Name='Числитель'),
+            TypeWeek(Name='Знаменатель')
         ]
         
-        await DefaultInsert.insert_date(table=TypeWeek, data=date)
+        await DefaultInsert.insert_date(data=date)
 
     async def tokentype():
         date = [
-            {TokenType.name:'Яндекс'},
-            {TokenType.name:'Госуслуги'},
-            {TokenType.name:'Вконтакте'},
-
-            {TokenType.name:'Телеграм'},
-            {TokenType.name:'Google'},
-            {TokenType.name:'Одноклассники'},
-            {TokenType.name:'Фейсбук'},
-            {TokenType.name:'Инстаграм'},
-            {TokenType.name:'Твиттер'},
+            TokenType(name='Яндекс'),
+            TokenType(name='Госуслуги'),
+            TokenType(name='Вконтакте'),
+            TokenType(name='Телеграм'),
+            TokenType(name='Google'),
+            TokenType(name='Одноклассники'),
+            TokenType(name='Фейсбук'),
+            TokenType(name='Инстаграм'),
+            TokenType(name='Твиттер')
         ]
 
-        await DefaultInsert.insert_date(table=TokenType, data=date)
+        await DefaultInsert.insert_date(data=date)
 
     async def role():
+
         date = [
-            {Role.name:'Администратор'},
-            {Role.name:'Редактор'},
-            {Role.name:'Студент'},
-            {Role.name:'SuperUser'},
+            Role(name='Администратор', level=5),
+            Role(name='Редактор', level=2),
+            Role(name='Студент', level=0),
+            Role(name='SuperUser', level=10)
         ]
 
-        await DefaultInsert.insert_date(table=Role, data=date)
+        await DefaultInsert.insert_date(data=date)
