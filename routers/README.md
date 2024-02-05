@@ -10,8 +10,11 @@ async def get_timeclass(
 ```
 
 > returns: List[TimeClass]
+> 
+**Example:**
 
 ![alt text](https://drive.google.com/uc?id=1MYUpciZeRMUsaVZNE553w8WYoH4rTt0z) 
+---
 
 
 
