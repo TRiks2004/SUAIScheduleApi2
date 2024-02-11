@@ -1,6 +1,6 @@
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, async_session, AsyncSession
 from sqlalchemy import text, insert
-from common.settings import settings_database
+from common import settings_database
 from models.schemes import Base
 
 from datetime import time
@@ -8,6 +8,8 @@ from datetime import time
 from models.schemes import (
     TimeClass, DayWeeks, TypeWeek, TokenType, Role
 )
+
+from loguru import logger 
 
 engine_async = create_async_engine(
     url=settings_database.db_url_async,
@@ -43,10 +45,12 @@ async def test_db(conn) -> None:
 # Define an asynchronous function to create the database
 @async_db_transaction()
 async def create_db(conn):
+    logger.info('create_db')
     await conn.run_sync(Base.metadata.create_all)
 
 @async_db_transaction()
 async def drop_db(conn):
+    logger.info('drop_db')
     await conn.run_sync(Base.metadata.drop_all)
 
 
@@ -55,6 +59,7 @@ class DefaultInsert:
         async with async_session_maker() as session:
             session.add_all(data)
             await session.commit()
+            logger.info(f'insert_date: {type(data[0])}')
 
     async def timeclass():
         date = [
@@ -68,13 +73,13 @@ class DefaultInsert:
 
     async def dayweeks():
         date = [
-            DayWeeks(Name='Понедельник', WekEnd=False),
-            DayWeeks(Name='Вторник', WekEnd=False),
-            DayWeeks(Name='Среда', WekEnd=False),
-            DayWeeks(Name='Четверг', WekEnd=False),
-            DayWeeks(Name='Пятница', WekEnd=False),
-            DayWeeks(Name='Суббота', WekEnd=False),
-            DayWeeks(Name='Воскресенье', WekEnd=True)
+            DayWeeks(Name='Понедельник', WeekEnd=False),
+            DayWeeks(Name='Вторник', WeekEnd=False),
+            DayWeeks(Name='Среда', WeekEnd=False),
+            DayWeeks(Name='Четверг', WeekEnd=False),
+            DayWeeks(Name='Пятница', WeekEnd=False),
+            DayWeeks(Name='Суббота', WeekEnd=False),
+            DayWeeks(Name='Воскресенье', WeekEnd=True)
         ]
         
         await DefaultInsert.insert_date(data=date)

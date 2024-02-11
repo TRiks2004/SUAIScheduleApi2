@@ -14,7 +14,7 @@ class TokenBase(BaseModel):
     deadToken: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class TokenCreate(TokenBase):
     ...

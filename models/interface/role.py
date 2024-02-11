@@ -6,7 +6,7 @@ class RoleBase(BaseModel):
     level: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class RoleCreate(RoleBase):
     ...

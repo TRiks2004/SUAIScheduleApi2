@@ -7,7 +7,7 @@ class ClassroomsBase(BaseModel):
     vector: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class ClassroomsCreate(ClassroomsBase):
     ...

@@ -1,4 +1,3 @@
-
 from pydantic import BaseModel
 
 from time_class import TimeClass
@@ -13,7 +12,7 @@ class ClassBase(BaseModel):
     subjects: Subjects
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class ClassCreate(ClassBase):
     ...

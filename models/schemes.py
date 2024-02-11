@@ -1,3 +1,4 @@
+from datetime import datetime
 from sqlalchemy import (
     Table, Column, Integer, String, MetaData, ForeignKey, Time, TIMESTAMP, Boolean, UUID, UniqueConstraint
 )
@@ -25,7 +26,7 @@ class DayWeeks(Base):
 
     idDayWeek = Column(Integer, primary_key=True)
     Name = Column(String(25), nullable=False, unique=True)
-    WekEnd = Column(Boolean, nullable=False)
+    WeekEnd = Column(Boolean, nullable=False)
 
 class TypeWeek(Base):
     __tablename__ = 'TypeWeek'
@@ -42,14 +43,15 @@ class Teachers(Base):
     Patronymic = Column(String(40))
     email = Column(String(255), nullable=False, unique=True)
     phoneNumber = Column(String(10), nullable=False, unique=True)
+    portrait = Column(String(255), nullable=True)
 
 class Classrooms(Base):
     __tablename__ = 'Classrooms'
 
     idClassroom = Column(Integer, primary_key=True)
-    Name = Column(String(10), nullable=False)
-    Building = Column(String(45), nullable=False)
-    vector = Column(Integer, nullable=False)
+    Name = Column(String(10), nullable=False, unique=True)
+    Building = Column(String(45), nullable=True)
+    vector = Column(Integer, nullable=True)
 
 class Subjects(Base):
     __tablename__ = 'Subjects'
@@ -144,7 +146,7 @@ class UserToken(Base):
 class News(Base):
     __tablename__ = 'News'
 
-    idNew = Column(Integer, primary_key=True, default=uuid4())
+    idNew = Column(Integer, primary_key=True)
     picture = Column(String(255))
     header = Column(String(50), nullable=False)
     text = Column(String(2000), nullable=False)
@@ -160,6 +162,8 @@ class ScheduleChanges(Base):
     timeClasses = Column(Integer, ForeignKey(TimeClass.idTimeClasses), nullable=False)
     subjects = Column(Integer, ForeignKey(Subjects.idSubject), nullable=False)
 
+    forDate = Column(TIMESTAMP(timezone=True), nullable=False)
+
 class TeachersScheduleChanges(Base):
     __tablename__ = 'TeachersScheduleChanges'
 
@@ -168,5 +172,17 @@ class TeachersScheduleChanges(Base):
     idClass = Column(Integer, ForeignKey(ScheduleChanges.idScheduleChange), nullable=False)
     idClassrooms = Column(Integer, ForeignKey(Classrooms.idClassroom), nullable=False)
     subgroup = Column(Integer, nullable=False)
+
+
+
+class Session(Base):
+    __tablename__ = 'Session'
+
+    idSession = Column(UUID(as_uuid=True), primary_key=True, default=uuid4())
+    idUser = Column(UUID(as_uuid=True), ForeignKey(Users.idUsers), nullable=False)
+    
+    created_at = Column(TIMESTAMP(timezone=True), nullable=False, default=datetime.now())
+    active = Column(Boolean, nullable=False, default=True)
+
 
 

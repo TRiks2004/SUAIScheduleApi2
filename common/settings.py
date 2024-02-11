@@ -5,6 +5,9 @@ from pydantic_settings import BaseSettings
 import environ
 import pathlib
 
+from loguru import logger
+
+
 BASE_DIR = pathlib.Path(__file__).parent.parent
 env = environ.Env()
 environ.Env.read_env(BASE_DIR / '.env')
@@ -33,8 +36,38 @@ class SettingsDatabase(BaseSettings):
         )
 
 
+
+
+
+class SettingsLogger(BaseSettings):
+    sink: str = 'logger/log/log.json'
+    format_log: str = '{elapsed} | {time:DD.MM.YYYY HH:mm:ss.SSSZ} | {level} | {message} | {file} | {module}:{function}:{line}'
+    level: str = 'DEBUG'
+    rotation: str = '00:00'
+    compression: str = 'zip'
+    serialize: bool = True
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.add_logger_options()
+
+    def add_logger_options(self) -> None:
+        logger.add(
+            sink=self.sink,
+            format=self.format_log,
+            level=self.level,
+            rotation=self.rotation,
+            compression=self.compression,
+            serialize=self.serialize,
+            delay=True
+        )
+
+
+
+
 settings_api = SettingsAPI()
 settings_database = SettingsDatabase()
+settings_logger = SettingsLogger()
 
 
 # TODO: Add logers

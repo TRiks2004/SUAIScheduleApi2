@@ -2,10 +2,10 @@ from pydantic import BaseModel
 
 class DayWeeksBase(BaseModel):
     Name: str    
-    WekEnd: bool
+    WeekEnd: bool
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class DayWeeksCreate(DayWeeksBase): ...
 

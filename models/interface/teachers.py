@@ -9,7 +9,7 @@ class TeachersBase(BaseModel):
     phoneNumber: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class TeachersCreate(TeachersBase):
     ...

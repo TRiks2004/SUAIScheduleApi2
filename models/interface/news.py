@@ -13,7 +13,7 @@ class NewsBase(BaseModel):
     views: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class NewsCreate(NewsBase):
     ...

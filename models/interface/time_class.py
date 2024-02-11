@@ -7,7 +7,7 @@ class TimeClassBase(BaseModel):
     endTime: time
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class TimeClassCreate(TimeClassBase):
     ...
