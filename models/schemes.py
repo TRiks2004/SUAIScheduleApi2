@@ -39,10 +39,10 @@ class Teachers(Base):
 
     idTeacher = Column(Integer, primary_key=True)
     Surname = Column(String(40), nullable=False)
-    Name = Column(String(40), nullable=False)
+    Name = Column(String(40), nullable=True)
     Patronymic = Column(String(40))
-    email = Column(String(255), nullable=False, unique=True)
-    phoneNumber = Column(String(10), nullable=False, unique=True)
+    email = Column(String(255), nullable=True, unique=True)
+    phoneNumber = Column(String(10), nullable=True, unique=True)
     portrait = Column(String(255), nullable=True)
 
 class Classrooms(Base):
@@ -59,32 +59,31 @@ class Subjects(Base):
     idSubject = Column(Integer, primary_key=True)
     Name = Column(String(255), nullable=False, unique=True)
 
-class Class(Base):
-    __tablename__ = 'Class'
-
-    idClasses = Column(Integer, primary_key=True)
-    
-    timeClasses = Column(Integer, ForeignKey(TimeClass.idTimeClasses), nullable=False)
-    dayWeek = Column(Integer, ForeignKey(DayWeeks.idDayWeek), nullable=False)
-    typeWeek = Column(Integer, ForeignKey(TypeWeek.idTypeWeek), nullable=False)
-    subjects = Column(Integer, ForeignKey(Subjects.idSubject), nullable=False)
-
-    __table_args__ = (
-        UniqueConstraint(timeClasses, dayWeek, typeWeek, subjects),
-    )
-
 class Groups(Base):
     __tablename__ = 'Groups'
 
     idGroup = Column(Integer, primary_key=True)
-    name = Column(String(10), nullable=False, unique=True)
-    Curator = Column(Integer, ForeignKey(Teachers.idTeacher))
+    name = Column(String(45), nullable=False, unique=True)
+    Curator = Column(Integer, ForeignKey(Teachers.idTeacher), nullable=True)
+
+class Class(Base):
+    __tablename__ = 'Class'
+
+    idClasses = Column(Integer, primary_key=True)
+    timeClasses = Column(Integer, ForeignKey(TimeClass.idTimeClasses), nullable=False)
+    dayWeek = Column(Integer, ForeignKey(DayWeeks.idDayWeek), nullable=False)
+    typeWeek = Column(Integer, ForeignKey(TypeWeek.idTypeWeek), nullable=False)
+    subjects = Column(Integer, ForeignKey(Subjects.idSubject), nullable=False)
+    idGroup = Column(Integer, ForeignKey(Groups.idGroup), nullable=False)
+
+    __table_args__ = (
+        UniqueConstraint(timeClasses, dayWeek, typeWeek, subjects, idGroup),
+    )
 
 class TeachersClass(Base):
     __tablename__ = 'TeachersClass'
 
     idTeacherClasses = Column(Integer, primary_key=True)
-
     idTeacher = Column(Integer, ForeignKey(Teachers.idTeacher), nullable=False)
     idClass = Column(Integer, ForeignKey(Class.idClasses), nullable=False)
     idClassrooms = Column(Integer, ForeignKey(Classrooms.idClassroom), nullable=False)
