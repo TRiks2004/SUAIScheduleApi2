@@ -1,6 +1,10 @@
 __pycache__/
 .vscode/
 .idea/
-.database/
-.env
+
+docker-file/.database/
 logger/log/
+docker-file/.redis_insight_volume_data/
+docker-file/.redis_volume_data/
+
+.env

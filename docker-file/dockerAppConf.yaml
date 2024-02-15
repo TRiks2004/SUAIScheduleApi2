@@ -1,39 +1,21 @@
 version: '3.9'
 
 services:
-  suai_schedule_db_postgres:
-    image: "postgres:14-alpine"
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: admin
-      POSTGRES_DB: queue
-    restart: always
-    ports:
-      - "5000:5432"
-    volumes:
-      - ./.database/postgres/data:/var/lib/postgresql/data
-    networks:
-      - suai_schedule_Network
-  
   suai_schedule_fastapi:
     build: .
-    command: uvicorn --factory main:create_app --reload --host 0.0.0.0 --port 8000 
+    command: 
+      [
+        "uvicorn", 
+        "--factory", "main:create_app", 
+        "--reload", 
+        "--host", "0.0.0.0", 
+        "--port", "8000"
+      ] 
     restart: always
     volumes:
-      - .:/code
+      - ..:/code
     ports:
       - "8000:8000"
-    networks:
-      - suai_schedule_Network
-
-  suai_schedule_pgadmin:
-    image: dpage/pgadmin4
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: triks0001000@gmail.com
-      PGADMIN_DEFAULT_PASSWORD: admin
-    ports:
-      - 5050:80
     networks:
       - suai_schedule_Network
 
