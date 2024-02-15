@@ -7,4 +7,6 @@ logger/log/
 docker-file/.redis_insight_volume_data/
 docker-file/.redis_volume_data/
 
+tete.json
+
 .env
