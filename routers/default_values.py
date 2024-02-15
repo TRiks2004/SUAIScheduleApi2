@@ -1,5 +1,7 @@
 from fastapi import APIRouter, Depends
 
+from fastapi_cache.decorator import cache
+
 from models.interface.time_class import TimeClass
 from models.interface.day_weeks import DayWeeks
 from models.interface.type_week import TypeWeek
@@ -30,6 +32,7 @@ router_default = APIRouter(
 # ----------------------------------------------------------------------------------------------------------------
 
 @router_default.get("/timeclass", response_model=List[TimeClass])
+@cache(expire=120)
 async def get_timeclass(
     skip: int = 0, limit: int = 100, 
     session: AsyncSession = Depends(get_async_session)) -> List[TimeClass]:
@@ -38,6 +41,7 @@ async def get_timeclass(
     
 
 @router_default.get("/timeclass/{number}", response_model=TimeClass)
+@cache(expire=120)
 async def get_timeclass_by_number(
     number: int, 
     session: AsyncSession = Depends(get_async_session)) -> TimeClass:
@@ -48,6 +52,7 @@ async def get_timeclass_by_number(
 # ----------------------------------------------------------------------------------------------------------------
 
 @router_default.get("/dayweeks", response_model=List[DayWeeks])
+@cache(expire=120)
 async def get_dayweeks(
     skip: int = 0, limit: int = 100, 
     session: AsyncSession = Depends(get_async_session)) -> List[DayWeeks]:
@@ -56,6 +61,7 @@ async def get_dayweeks(
 
 
 @router_default.get("/dayweeks/weekend", response_model=List[DayWeeks])
+@cache(expire=120)
 async def get_dayweeks_weekend(
     skip: int = 0, limit: int = 100, 
     session: AsyncSession = Depends(get_async_session)) -> List[DayWeeks]:
@@ -64,6 +70,7 @@ async def get_dayweeks_weekend(
 
 
 @router_default.get("/dayweeks/workday", response_model=List[DayWeeks])
+@cache(expire=120)
 async def get_dayweeks_workday(
     skip: int = 0, limit: int = 100, 
     session: AsyncSession = Depends(get_async_session)) -> List[DayWeeks]:
@@ -74,6 +81,7 @@ async def get_dayweeks_workday(
 # ----------------------------------------------------------------------------------------------------------------
 
 @router_default.get("/typeweek", response_model=List[TypeWeek])
+@cache(expire=120)
 async def get_typeweek(
     skip: int = 0, limit: int = 100, 
     session: AsyncSession = Depends(get_async_session)) -> List[TypeWeek]:
@@ -81,6 +89,7 @@ async def get_typeweek(
     return await typeweek_select_all(session, skip, limit)
 
 @router_default.get("/typeweek/auto", response_model=TypeWeek)
+@cache(expire=120)
 async def get_typeweek_auto(
     term: str, date_start_term: date,
     session: AsyncSession = Depends(get_async_session)) -> TypeWeek:
@@ -91,6 +100,7 @@ async def get_typeweek_auto(
 # ----------------------------------------------------------------------------------------------------------------
 
 @router_default.get("/tokentype", response_model=List[TokenType])
+@cache(expire=120)
 async def get_tokentype(
     skip: int = 0, limit: int = 100, 
     session: AsyncSession = Depends(get_async_session)) -> List[TokenType]:
@@ -101,6 +111,7 @@ async def get_tokentype(
 # ----------------------------------------------------------------------------------------------------------------
 
 @router_default.get("/role", response_model=List[Role])
+@cache(expire=120)
 async def get_role(
     skip: int = 0, limit: int = 100, 
     session: AsyncSession = Depends(get_async_session)) -> List[Role]:

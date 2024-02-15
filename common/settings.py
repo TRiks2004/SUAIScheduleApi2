@@ -35,10 +35,6 @@ class SettingsDatabase(BaseSettings):
             database=self.db_name,
         )
 
-
-
-
-
 class SettingsLogger(BaseSettings):
     sink: str = 'logger/log/log.json'
     format_log: str = '{elapsed} | {time:DD.MM.YYYY HH:mm:ss.SSSZ} | {level} | {message} | {file} | {module}:{function}:{line}'
@@ -61,9 +57,6 @@ class SettingsLogger(BaseSettings):
             serialize=self.serialize,
             delay=True
         )
-
-
-
 
 settings_api = SettingsAPI()
 settings_database = SettingsDatabase()

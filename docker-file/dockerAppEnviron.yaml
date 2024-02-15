@@ -11,7 +11,7 @@ services:
     ports:
       - "5000:5432"
     volumes:
-      - ./.database/postgres/data:/var/lib/postgresql/data
+      - .database/postgres/data:/var/lib/postgresql/data
     networks:
       - suai_schedule_Network
 
