@@ -8,7 +8,7 @@ from typing import List
 import json
 
 from servises.get_schedule import (
-    select_schedule
+    select_schedule, select_group_all
 )   
 
 schedule_router = APIRouter(
@@ -24,4 +24,11 @@ async def get_timeclass(
     skip: int = 0, limit: int = 100, 
     session: AsyncSession = Depends(get_async_session)):
     get = await select_schedule(type_week, group, session, skip, limit)
+    return get
+
+@schedule_router.get("/group")
+async def get_group(
+    skip: int = 0, limit: int = 100, 
+    session: AsyncSession = Depends(get_async_session)):
+    get = await select_group_all(session, skip, limit)
     return get

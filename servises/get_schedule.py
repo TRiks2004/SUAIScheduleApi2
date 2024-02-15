@@ -88,3 +88,41 @@ async def select_schedule(type_week: str, group: str, session: AsyncSession, ski
         )
     
     return list(date.values())
+
+async def select_group_all(session: AsyncSession, skip: int = 0, limit: int = 100):
+    stmt = (
+        select(
+            Groups, Teachers
+        )
+        .select_from(Groups)
+        .join(Teachers, Groups.Curator == Teachers.idTeacher, full=False, isouter=True)
+        .offset(skip).limit(limit)
+    )
+
+    result = await session.execute(stmt)
+
+    groups_list = []
+    for group, teacher in result.all():
+        groups_list.append(
+            {
+                'idGroup': group.idGroup,
+                'name': group.name,
+                'curator': {
+                    'idTeacher': teacher.idTeacher, 
+                    'surname': teacher.Surname, 
+                    'name': teacher.Name, 
+                    'patronymic': teacher.Patronymic, 
+                    'email': teacher.email, 
+                    'phoneNumber': teacher.phoneNumber, 
+                    'portrait': teacher.portrait, 
+                } if teacher is not None else None
+            }
+        )
+
+
+
+    
+
+    print(groups_list)
+
+    return groups_list

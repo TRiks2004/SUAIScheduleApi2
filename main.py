@@ -36,7 +36,6 @@ def create_app() -> FastAPI:
 
 
 async def main():
-    
     # await drop_db()
     # await create_db()
 
@@ -46,7 +45,8 @@ async def main():
     # await DefaultInsert.tokentype()
     # await DefaultInsert.dayweeks()
 
-    await InsertShedule('tete.json').insert_shedule()
+    # await InsertShedule('tete.json').insert_shedule()
+    ...
 
 
 
