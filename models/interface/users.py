@@ -1,8 +1,8 @@
 from datetime import datetime
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
-from role import Role
-from groups import Groups
+from models.interface.roles import Role
+from models.interface.groups import Groups
 
 class UsersBase(BaseModel):
     name: str
@@ -11,7 +11,7 @@ class UsersBase(BaseModel):
     gender: str
     role: Role
     portrait: str
-    email: str
+    email: EmailStr
     PhoneNumber: str | None
     birthday: datetime | None
     login: str

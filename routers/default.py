@@ -6,7 +6,7 @@ from models.interface.time_class import TimeClass
 from models.interface.day_weeks import DayWeeks
 from models.interface.type_week import TypeWeek
 from models.interface.token_type import TokenType
-from models.interface.role import Role
+from models.interface.roles import Role
 
 from datetime import date
 
@@ -28,6 +28,7 @@ from typing import List
 
 router_default = APIRouter(
     prefix="/default",
+    tags=["default"]
 )
 
 # timeclass

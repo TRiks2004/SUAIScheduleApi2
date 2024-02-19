@@ -1,6 +1,8 @@
 
 from pydantic import BaseModel
 
+from models.interface.teachers import Teachers
+
 class GroupsBase(BaseModel):
     name: str
 
@@ -12,4 +14,4 @@ class GroupsCreate(GroupsBase):
 
 class Groups(GroupsBase):
     idGroup: int
-    Curator: ... # TODO: ADD Teachers
+    Curator: Teachers | None  # TODO: ADD Teachers

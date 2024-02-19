@@ -1,27 +1,31 @@
-from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from common import settings_api
 
 # TODO: TEST datebase 
-# from models.datebase import create_db, drop_db, DefaultInsert, InsertShedule
+from models.datebase import test_db
 
 import anyio
 
-from routers import router_default, logs_router, schedule_router 
+from routers import include_router
 
 from loguru import logger
 
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
-from fastapi_cache.decorator import cache
 
 from redis import asyncio as aioredis
 
 
 async def init_fast_api_cache():
+    '''
+    init_fast_api_cache()
+
+    Инициализация `FastAPICache` для кэша определённых запросов
+    '''
     redis = aioredis.from_url("redis://localhost")
     FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
+    logger.info('init_fast_api_cache()')
 
 async def lifespan(app: FastAPI):
     logger.info('lifespan(app: FastAPI) - startUp')
@@ -33,6 +37,9 @@ async def lifespan(app: FastAPI):
     logger.info('lifespan(app: FastAPI) - shutdown')
 
 
+
+
+
 def create_app() -> FastAPI:
     app = FastAPI(
         debug= settings_api.debug,
@@ -41,21 +48,15 @@ def create_app() -> FastAPI:
         lifespan=lifespan,
     )   
 
-    
-    app.include_router(router_default)
-    logger.info('include_router(router_default)')
+    include_router(app)
 
-    app.include_router(logs_router)
-    logger.info('include_router(logs_router)')
-
-    app.include_router(schedule_router)
-    logger.info('include_router(schedule_router)')
 
     return app
 
 
 
 async def main():
+    await test_db()
     # await drop_db()
     # await create_db()
 
