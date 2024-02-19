@@ -13,42 +13,42 @@ app:
 
 
 start-environment:
-	docker compose -f $(docker-folder)/$(AppEnviron) up -d
+	sudo docker compose -f $(docker-folder)/$(AppEnviron) up -d
 
 start-portainer:
-	docker compose -f $(docker-folder)/$(Portainer) up -d
+	sudo docker compose -f $(docker-folder)/$(Portainer) up -d
 
 start-fastapi:
-	docker compose -f $(docker-folder)/$(AppConf) up -d
+	sudo docker compose -f $(docker-folder)/$(AppConf) up -d
 
 
 start-environment-build:
-	docker compose -f $(docker-folder)/$(AppEnviron) up --build -d 
+	sudo docker compose -f $(docker-folder)/$(AppEnviron) up --build -d 
 
 start-portainer-build:
-	docker compose -f $(docker-folder)/$(Portainer) up --build -d 
+	sudo docker compose -f $(docker-folder)/$(Portainer) up --build -d 
 
 start-fastapi-build:
-	docker compose -f $(docker-folder)/$(AppConf) up --build -d 
+	sudo docker compose -f $(docker-folder)/$(AppConf) up --build -d 
 
 
 start-environment-restart:
-	docker compose -f $(docker-folder)/$(AppEnviron) restart
+	sudo docker compose -f $(docker-folder)/$(AppEnviron) restart
 
 start-portainer-restart:
-	docker compose -f $(docker-folder)/$(Portainer) restart 
+	sudo docker compose -f $(docker-folder)/$(Portainer) restart 
 
 start-fastapi-restart:
-	docker compose -f $(docker-folder)/$(AppConf) restart 
+	sudo docker compose -f $(docker-folder)/$(AppConf) restart 
 
 
 start-environment-kill:
-	docker compose -f $(docker-folder)/$(AppEnviron) kill
+	sudo docker compose -f $(docker-folder)/$(AppEnviron) kill
 
 start-portainer-kill:
-	docker compose -f $(docker-folder)/$(Portainer) kill 
+	sudo docker compose -f $(docker-folder)/$(Portainer) kill 
 
 start-fastapi-kill:
-	docker compose -f $(docker-folder)/$(AppConf) kill 
+	sudo docker compose -f $(docker-folder)/$(AppConf) kill 
 
 

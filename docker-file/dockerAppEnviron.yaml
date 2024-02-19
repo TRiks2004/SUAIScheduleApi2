@@ -1,15 +1,15 @@
 version: '3.9'
 
 services:
-  suai_schedule_db_postgres:
+  suai_schedule_postgres:
     image: "postgres:14-alpine"
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: admin
-      POSTGRES_DB: queue
+      POSTGRES_PASSWORD: Bh3AKrv0k45g1R4SbamW
+      POSTGRES_DB: suaischedule
     restart: always
     ports:
-      - "5000:5432"
+      - "5678:5432"
     volumes:
       - .database/postgres/data:/var/lib/postgresql/data
     networks:
@@ -20,14 +20,14 @@ services:
     restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: triks0001000@gmail.com
-      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_DEFAULT_PASSWORD: 31wDSuz1m4uCUViINqvQ
     ports:
       - 5050:80
     networks:
       - suai_schedule_Network
 
-  redis_stack:
-    container_name: redis-stack
+  suai_schedule_redisstack:
+    container_name: rsuai_schedule_redisstack
     image: redis/redis-stack:latest
     restart: always
     volumes:
@@ -39,7 +39,6 @@ services:
     networks:
       - suai_schedule_Network
  
-
 volumes:
   redis_volume_data:
   redis_insight_volume_data:
